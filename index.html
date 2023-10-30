@@ -8,12 +8,47 @@
     <title>Etch-a-Sketch</title>
   </head>
   <body>
-    <h1>Etch-a-Sketch</h1>
-    <div>
-      <p>Grid size:</p>
-      <button id="size">16x16</button>
-    </div>
+    <div id="etch">
+      <h1>Etch-a-Sketch</h1>
+      <div id="row">
+        <form id="size" class="menu">
+          <h2>Grid size</h2>
+          <input
+            id="range"
+            type="range"
+            min="1"
+            max="100"
+            value="16"
+            step="1"
+            oninput="rangeValue.innerText = this.value"
+          />
+          <p id="rangeValue">16</p>
+          <button id="reset">Reset</button>
+        </form>
+        <div id="border">
+          <div id="grid"></div>
+        </div>
+        <form id="color" class="menu">
+          <h2>Color</h2>
+          <div class="radio">
+            <label for="black">Black</label>
+            <input type="radio" checked id="black" name="color" value="black" />
+          </div>
+          <div class="radio">
+            <label for="random">Random</label>
+            <input type="radio" id="random" name="color" value="random" />
+          </div>
 
-    <div id="grid"></div>
+          <div class="radio">
+            <label for="psyche">Psyche</label>
+            <input type="radio" id="psyche" name="color" value="psyche" />
+          </div>
+          <div class="radio">
+            <label for="shadow">Shadow</label>
+            <input type="checkbox" id="shadow" name="shadow" value="shadow" />
+          </div>
+        </form>
+      </div>
+    </div>
   </body>
 </html>

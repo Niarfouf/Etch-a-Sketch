@@ -1,3 +1,44 @@
+
+function randomColor() {
+    let color = [];
+    for (let i = 0; i < 3; i++) {
+      color.push(Math.floor(Math.random() * 256));
+    }
+    return 'rgb(' + color.join(', ') + ')';
+  } 
+let opacity = true
+
+const colorButton = document.querySelectorAll("input[type=radio]")
+let color = "black"
+colorButton.forEach(button => {
+    button.addEventListener("change", function() {
+        if (button.checked) {
+            color = button.value
+            if (color === "random") {
+                color = randomColor()
+            }
+        }
+    })})
+
+function colorFunction(e) {
+    if (!isMouseDown) {
+        return
+    }
+    if (opacity) {
+        e.target.style.opacity = 1
+    } else {
+        let opacityValue = Number(e.target.style.opacity)
+        if (opacityValue < 1) {
+            e.target.style.opacity = opacityValue + 0.1
+        }
+    }
+    if (color === "psyche") {
+        e.target.style.backgroundColor = randomColor() 
+    }
+     else {
+        e.target.style.backgroundColor = color 
+    }
+}
 const grid = document.querySelector("#grid")
 let gridSize = 16
 function createGrid(gridSize) {
@@ -9,29 +50,39 @@ function createGrid(gridSize) {
     }
 
     for (let i = 0; i < (gridSize*gridSize); i++) {
-        const rect = document.createElement("div")
-        rect.classList.add("rect")
-        grid.appendChild(rect)
-    }
-    rects = document.querySelectorAll(".rect")
-    rects.forEach( rect => {
-        rect.setAttribute("style", `flex:1 1 ${(100/gridSize)}%;`)
-        rect.addEventListener("mouseover", function() {
-            rect.classList.add("blue")
-        })
-    })
+        const divRect = document.createElement("div")
+        divRect.classList.add("rect")
+        divRect.setAttribute("style", `flex:1 1 ${(100/gridSize)}%;`)
+        divRect.style.opacity = 0
+        divRect.addEventListener("mouseover", colorFunction) 
+        grid.appendChild(divRect)
+    }  
 }
 createGrid(gridSize)
-
-
-
-
-
-
-const sizeButton = document.querySelector("#size")
-sizeButton.addEventListener("click", function() {
-    let size = window.prompt("Chose the size of the grid (e.g. 16x16):")
-    sizeButton.textContent = size
-    gridSize = Number(size.slice(0, 2))
+let isMouseDown;
+document.addEventListener('mousedown', () => isMouseDown = true);
+document.addEventListener('mouseup', () => isMouseDown = false);
+const sizeButton = document.querySelector("#range")
+sizeButton.addEventListener("change", function(e) {
+    let size
+    size = e.target.value
+    gridSize = Number(size)
+    sizeButton.textContent = `${gridSize}x${gridSize}`
     createGrid(gridSize)
+    
+})
+
+const reset = document.querySelector("#reset")
+reset.addEventListener("click", function() {
+    document.querySelector(".menu").reset()
+})
+
+const checkBox = document.querySelector("input[type=checkbox]")
+checkBox.addEventListener("change", function() {
+    if (checkBox.checked) {
+        opacity = false
+    } else {
+        opacity = true
+        
+        }
 })
